@@ -1,0 +1,48 @@
+{% extends 'index.html'%}
+
+{% block content %}
+{% load static %}
+{% if page == 'login' %}
+<div class="container text-center">
+    <h2 class="display-2">Log In</h2>
+    <div class="form-control">
+    <form method="POST" action="">
+        {% csrf_token %}
+    <div class="form-floating mb-3"> 
+        <input class="form-control" type="text" name="email" placeholder="Enter your email" /><br>
+        <label>Email:</label>
+    </div>
+    <div class="form-floating mb-3">    
+        <input class="form-control" type="password" name="password" placeholder="Enter your password" /><br>
+        <label>Contrasena:</label>  
+    </div>
+    <div class="text-center">
+    <input class="btn btn-primary" type="submit" value="Login" /></br>
+    <a href="" class="">Olvidaste tu Contrasena?</a>
+        <p>No te has Registrado?</p>
+        <a class="btn btn-secondary" href="{% url 'registeruser' %}">Registrate!</a>
+    </div>
+    </form>
+    
+    </div>
+</div>
+
+{% else %}
+
+<div class="container text-center">
+    <h2 class="display-2">Registrate</h2>
+    <form method="POST" action="">
+        <div class="container form-floating">
+        {% csrf_token %}
+        <div class="dropdown text-start">
+        {{new_user.as_p}}
+        </div>
+            
+        <div class="container text-center">
+            <input class="btn btn-primary" type="submit" value="Register" />
+    </form>
+            <p>Ya estas Registrado?</p>
+            <a class="link-info" href="{% url 'login' %}">Ingresa</a>
+        </div>
+{% endif %}
+{% endblock content %}

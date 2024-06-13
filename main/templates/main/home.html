@@ -1,0 +1,62 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{% load static %}
+
+<div class="container">
+    <h1>Hello {{user.nombre}}</h1>
+
+<div class="row">
+    <div class="col">
+      <div class="card border-success mb-2">
+        <div class="card-header p-3 pt-3">
+            <div class="text-center pt-1">
+                <p class="text-sm mb-0 text-capitalize text-success">Rewards:</p>
+                <h4 class="mb-0 text-success">{{user.rewards}}</h4>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="col">
+        <div class="card border-success mb-2">
+          <div class="card-header p-3 pt-3">
+              <div class="text-center pt-1">
+                  <p class="text-sm mb-0 text-capitalize text-success">Days Available:</p>
+                  <h4 class="mb-0 text-success">{{user.rewards}}</h4>
+              </div>
+          </div>
+      </div>
+      </div>
+</div>
+<div class="container">
+    <h2 class="text-center">Your Dogs:</h2>
+
+    <!-- Dogs Cards -->
+    <div class="card-group">
+        {% for dog in user_dogs %}
+        <div class="card align-items-center">
+            {% if dog.photo %}
+            <img src="{{ dog.photo.url }}" style="width: 25%;" class="card-img-top " alt="Dog_Photo">
+            {% else %}
+            <img src="{% static '/img/paw_logo.png' %}" style="width: 25%;" class="card-img-top " alt="Dog_No_Photo">
+            {% endif %}
+          <div class="card-body">
+            <h5 class="card-title">{{dog.nombre}}</h5>
+          </div>
+        </div>
+        {% endfor %}
+    </div>
+    <!-- End Dog Cards -->
+
+</div>
+<div class="row ">
+    <h2 class="text-center">New Booking</h2>
+    <div class="col d-flex justify-content-center">
+        <a class="btn btn-lg rounded-5 btn-success" style="width: 100%;" href="{% url 'booking_hotel' %}" role="button">Hotel</a>
+    </div>
+    <div class="col d-flex justify-content-center">
+        <a class="btn btn-lg rounded-5 btn-warning" style="width: 100%;" href="{% url 'booking_diario' %}" role="button">Diario</a>
+    </div>
+</div>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{% load static %}
+<div class="container text-center">
+    <h1>Welcome to Pawradise</h1>
+</div>
+
+<div class="container-sm">
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{new_user}}
+        <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Registrarse"/>
+    </form>
+</div>
+
+{% endblock %}
