@@ -5,8 +5,8 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
-from .models import User,Dogs
-from .forms import NewUserForm
+from .models import User,Dogs, Reserves_Daily
+from .forms import NewUserForm, Daily_ReserveForm
 # from django.db.models import Sum,Count
 # from django.core.mail import send_mail, EmailMultiAlternatives
 
@@ -22,8 +22,22 @@ def home(request):
     return render(request,'main/home.html',context)
 
 def booking_diario(request):
-    context = {
+    form = Daily_ReserveForm(request.user)
+    user = request.user
+    user_dogs = Dogs.objects.filter(propietario__exact=request.user)
 
+    if request.method == 'POST':
+        form = Daily_ReserveForm(request.user,request.POST)
+        if form.is_valid():
+            propietario = form.save(commit=False)
+            propietario.propietario = request.user
+            propietario.save()
+            messages.success(request,'Entry recorded Successfully!')
+            return redirect('home') 
+    context = {
+        'form': form,
+        'user':user,
+        'user_dogs':user_dogs,
     }
     return render(request,'main/booking_diario.html',context)
     

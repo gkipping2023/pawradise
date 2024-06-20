@@ -7,17 +7,16 @@
       </button>
     <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <a class="nav-link" aria-current="true" href="">Logbook Calc</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="">Simple Calculator</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="">Help Center</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="">Contact Center</a>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Nueva Reserva
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="{% url 'booking_hotel' %}">Hotel</a></li>
+            <li><a class="dropdown-item" href="{% url 'booking_diario' %}">Diario</a></li>
+            <!-- <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+          </ul>
         </li>
         {% comment %}
         <!-- <li class="nav-item">
