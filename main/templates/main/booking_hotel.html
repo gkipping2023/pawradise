@@ -2,5 +2,17 @@
 
 {% block content %}
 {% load static %}
+<div class="container">
+    
+<h3>Hola, {{user.nombre}} {{user.apellido}} </h3>
+<h3> Tienes {{user.available_days}} dias disponibles</h3>
+<form method="POST" action="">
+    {% csrf_token %}
+    <div class="form-control">
+    {{form_h.as_p}}
+    <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Save"/>
+          </div>
+      </form>
+</div>
 
 {% endblock %}

@@ -1,0 +1,103 @@
+{% extends 'index.html' %}
+
+{% block content %}
+{% load static %}
+
+<button type="button" class="btn btn-success rounded-pill">+ Agregar</button>
+<h2>Total: {{total_checked_in}}</h2>
+<h1>Reservas Diario</h1>
+<table class = "table">
+<thead>
+<tr>
+    <th scope="col">NOMBRE</th>
+    <th scope="col">INGRESO</th>
+    <th scope="col">PAQUETE</th>
+    <th scope="col">PROPIETARIO</th>
+    <th scope="col">CHECK-IN/OUT</th>
+</tr>
+</thead>
+<tbody>
+
+{% for dog in today_reserves %}
+<tr>
+    <td>
+        {{dog.dog}}
+    </td>
+    <td>
+        {{dog.fecha_in}}
+    </td>
+    <td>
+        {{dog.paquete}}
+    </td>
+    <td>
+        {{dog.propietario}}
+    </td>
+    <td>
+    <form action="{% url 'check_in_out' dog.id %}" method="POST">
+    {% csrf_token %}
+    {% if dog.is_checked_in %}
+    <button type="Submit" class="btn btn-outline-danger">
+        Check out
+    </button>
+    {% else %}
+    <button type="Submit" class="btn btn-outline-success">
+        Check in
+    </button>
+    {% endif %}
+    
+    </form>
+    </td>
+</tr>
+{%endfor%}
+
+</tbody>
+</table>
+<h1>Total Reservas Hotel {{hotel_total_checked_in}}</h1>
+<table class = "table">
+<thead>
+<tr>
+    <th scope="col">NOMBRE</th>
+    <th scope="col">FECHA DE INGRESO</th>
+    <th scope="col">FECHA DE SALIDA</th>
+    <th scope="col">PROPIETARIO</th>
+    <th scope="col">CHECK-IN/OUT</th>
+</tr>
+</thead>
+<tbody>
+
+{% for dog in hotel_reserves %}
+<tr>
+    <td>
+        {{dog.dog}}
+    </td>
+    <td>
+        {{dog.fecha_in}}
+    </td>
+    <td>
+        {{dog.fecha_out}}
+    </td>
+    <td>
+        {{dog.propietario}}
+    </td>
+    <td>
+    <form action="{% url 'check_in_out' dog.id %}" method="POST">
+    {% csrf_token %}
+    {% if dog.is_checked_in %}
+    <button type="Submit" class="btn btn-outline-danger">
+        Check out
+    </button>
+    {% else %}
+    <button type="Submit" class="btn btn-outline-success">
+        Check in
+    </button>
+    {% endif %}
+    
+    </form>
+    </td>
+</tr>
+{%endfor%}
+
+</tbody>
+</table>
+
+{% endblock %}

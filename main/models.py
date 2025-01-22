@@ -41,10 +41,21 @@ class Dogs(models.Model):
         return self.nombre
 
 class Reserves_Daily(models.Model):
-    propietario = models.OneToOneField(User,on_delete=models.CASCADE,max_length=250,null=False)
+    propietario = models.ForeignKey(User,on_delete=models.CASCADE,max_length=250,null=False)
     dog = models.ForeignKey(Dogs,on_delete=models.CASCADE,max_length=250,null=False)
     paquete = models.CharField(max_length=250,choices=Paquetes,default='medio')
     fecha_in = models.DateField(default='1900-01-01')
+    is_checked_in = models.BooleanField(default=False) #By GPT
+
+    def __str__(self):
+        return str(self.propietario)
+    
+class Reserves_Hotel(models.Model):
+    propietario = models.ForeignKey(User,on_delete=models.CASCADE,max_length=250,null=False)
+    dog = models.ForeignKey(Dogs,on_delete=models.CASCADE,max_length=250,null=False)
+    fecha_in = models.DateField(default='2024-01-01')
+    fecha_out = models.DateField(default='2024-01-01')
+    is_checked_in = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.propietario)
