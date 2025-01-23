@@ -10,6 +10,6 @@ urlpatterns = [
     path('hotel',views.booking_hotel,name='booking_hotel'),
     path('diario',views.booking_diario,name='booking_diario'),
     path('local_admin',views.local_admin,name='local_admin'),
-    path('check_in_out/<int:dog_id>/', views.check_in_out, name='check_in_out'),
-    
+    path('check_in_out_daily/<int:dog_id>/', views.check_in_out_daily, name='check_in_out_daily'),
+    path('check_in_out_hotel/<int:dog_id>/', views.check_in_out_hotel, name='check_in_out_hotel'),
 ]

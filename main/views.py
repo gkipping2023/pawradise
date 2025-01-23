@@ -1,5 +1,5 @@
 import re
-# from datetime import datetime
+from datetime import date
 # import calendar
 from django.shortcuts import render, redirect
 from django.contrib import messages
@@ -13,9 +13,10 @@ from .forms import NewUserForm, Daily_ReserveForm,Hotel_ReserveForm, Daily_Reser
 # Create your views here.
 
 def local_admin(request):
+    today = date.today()
     today_reserves = Reserves_Daily.objects.all()
     total_checked_in = today_reserves.filter(is_checked_in=True).count()
-    hotel_reserves = Reserves_Hotel.objects.all()
+    hotel_reserves = Reserves_Hotel.objects.filter(fecha_in__lte=date.today()).filter(fecha_out__gte=date.today())
     hotel_total_checked_in = hotel_reserves.filter(is_checked_in=True).count()
     context = {
         'today_reserves':today_reserves,
@@ -26,7 +27,7 @@ def local_admin(request):
     return render(request,'main/local_admin.html',context)
 
 #by GPT
-def check_in_out(request,dog_id):
+def check_in_out_daily(request,dog_id):
     dog = Reserves_Daily.objects.get(id=dog_id)
     dog.is_checked_in = not dog.is_checked_in
     dog.save()
@@ -80,7 +81,13 @@ def booking_hotel(request):
         'user':user,
         'user_dogs':user_dogs,
     }
-    return render(request,'main/booking_hotel.html',context)    
+    return render(request,'main/booking_hotel.html',context)
+
+def check_in_out_hotel(request,dog_id):
+    dog = Reserves_Hotel.objects.get(id=dog_id)
+    dog.is_checked_in = not dog.is_checked_in
+    dog.save()
+    return redirect('local_admin')    
 
 def registeruser(request):
     new_user = NewUserForm()

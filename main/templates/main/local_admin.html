@@ -33,7 +33,7 @@
         {{dog.propietario}}
     </td>
     <td>
-    <form action="{% url 'check_in_out' dog.id %}" method="POST">
+    <form action="{% url 'check_in_out_daily' dog.id %}" method="POST">
     {% csrf_token %}
     {% if dog.is_checked_in %}
     <button type="Submit" class="btn btn-outline-danger">
@@ -80,7 +80,7 @@
         {{dog.propietario}}
     </td>
     <td>
-    <form action="{% url 'check_in_out' dog.id %}" method="POST">
+    <form action="{% url 'check_in_out_hotel' dog.id %}" method="POST">
     {% csrf_token %}
     {% if dog.is_checked_in %}
     <button type="Submit" class="btn btn-outline-danger">
