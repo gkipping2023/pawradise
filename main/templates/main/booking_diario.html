@@ -6,6 +6,7 @@
     
 <h3>Hola, {{user.nombre}} {{user.apellido}} </h3>
 <h3> Tienes {{user.available_days}} dias disponibles</h3>
+{{available_days1}}
 
 <!-- <p>Para:</p>
 <select class="form-select" aria-label="Default select example">
@@ -25,10 +26,17 @@
   <p>Fecha:</p>
   <input name="reserve_date" class="form-control" type="date"> -->
   <!-- Form -->
+{% if user.available_days > 0 %}
+<form method="POST" action="">
+    {% csrf_token %}
+    <div class="form-control">
+    {{form2.as_p}} 
+{% elif user.available_days < 0 %}
   <form method="POST" action="">
     {% csrf_token %}
     <div class="form-control">
     {{form.as_p}}
+{% endif %}
     <!--
         <select class="form-select" aria-label="Default select example">
           {% for dog in form %}

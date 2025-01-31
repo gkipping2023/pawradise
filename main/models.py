@@ -14,6 +14,9 @@ class User(AbstractUser):
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
 
+    def __str__(self):
+        return self.nombre
+
 Sexo_Choices = (
     ('macho','MACHO'),
     ('hembra','HEMBRA')
@@ -21,11 +24,11 @@ Sexo_Choices = (
 
 Paquetes = (
     ('medio','Medio dia - $7.49'),
-    ('1dia','Pase Diario - $12.84'),
-    ('3dias','Pase 3 dias - $35.31'),
-    ('6dias','Pase 6 dias - $64.20'),
-    ('12dias','Pase 12 dias - $117.70'),
-    ('24dias','Pase 24 dias - $214.00')
+    ('1','Pase Diario - $12.84'),
+    ('3','Pase 3 dias - $35.31'),
+    ('6','Pase 6 dias - $64.20'),
+    ('12','Pase 12 dias - $117.70'),
+    ('24','Pase 24 dias - $214.00')
 )
 
 class Dogs(models.Model):

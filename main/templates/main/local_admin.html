@@ -3,15 +3,19 @@
 {% block content %}
 {% load static %}
 
-<button type="button" class="btn btn-success rounded-pill">+ Agregar</button>
+<a href="/admin/main/reserves_daily/add/" type="button" class="btn btn-success rounded-pill">+ Agregar Diario</a>
+<a href="/admin/main/reserves_hotel/add/" type="button" class="btn btn-success rounded-pill">+ Agregar Hotel</a>
+<a href="{% url 'historial_admin' %}" type="button" class="btn btn-success rounded-pill">Historial</a>
+
 <h2>Total: {{total_checked_in}}</h2>
 <h1>Reservas Diario</h1>
 <table class = "table">
 <thead>
 <tr>
+    <th scope="col">dev_id</th>
     <th scope="col">NOMBRE</th>
     <th scope="col">INGRESO</th>
-    <th scope="col">PAQUETE</th>
+    <th scope="col">DISPONIBLE</th>
     <th scope="col">PROPIETARIO</th>
     <th scope="col">CHECK-IN/OUT</th>
 </tr>
@@ -21,16 +25,19 @@
 {% for dog in today_reserves %}
 <tr>
     <td>
+        {{dog.id}}
+    </td>
+    <td>
         {{dog.dog}}
     </td>
     <td>
         {{dog.fecha_in}}
     </td>
     <td>
-        {{dog.paquete}}
+        {{dog.propietario.available_days}} dias
     </td>
     <td>
-        {{dog.propietario}}
+        {{dog.propietario}} {{dog.propietario.apellido}}
     </td>
     <td>
     <form action="{% url 'check_in_out_daily' dog.id %}" method="POST">
@@ -48,7 +55,8 @@
     </form>
     </td>
 </tr>
-{%endfor%}
+
+{% endfor %}
 
 </tbody>
 </table>
