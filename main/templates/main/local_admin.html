@@ -3,11 +3,35 @@
 {% block content %}
 {% load static %}
 
+<div class='container'>
 <a href="/admin/main/reserves_daily/add/" type="button" class="btn btn-success rounded-pill">+ Agregar Diario</a>
 <a href="/admin/main/reserves_hotel/add/" type="button" class="btn btn-success rounded-pill">+ Agregar Hotel</a>
 <a href="{% url 'historial_admin' %}" type="button" class="btn btn-success rounded-pill">Historial</a>
 
-<h2>Total: {{total_checked_in}}</h2>
+
+<div class="row">
+    <div class="col">
+      <div class="card border-success mb-2">
+        <div class="card-header p-3 pt-3">
+            <div class="text-center pt-1">
+                <p class="text-sm mb-0 text-capitalize text-success">Para Hoy:</p>
+                <h4 class="mb-0 text-success">{{expected_today}}</h4>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="col">
+        <div class="card border-success mb-2">
+          <div class="card-header p-3 pt-3">
+              <div class="text-center pt-1">
+                  <p class="text-sm mb-0 text-capitalize text-success">Total:</p>
+                  <h4 class="mb-0 text-success">{{total_checked_in}}</h4>
+              </div>
+          </div>
+      </div>
+      </div>
+</div>
+
 <h1>Reservas Diario</h1>
 <table class = "table">
 <thead>
@@ -107,5 +131,6 @@
 
 </tbody>
 </table>
+</div>
 
 {% endblock %}

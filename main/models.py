@@ -7,9 +7,10 @@ class User(AbstractUser):
     apellido = models.CharField(max_length=250,default='None')
     telefono = models.CharField(max_length=250)
     email = models.EmailField(unique=True,max_length=250)
-    rewards = models.IntegerField(null=True)
-    available_days = models.IntegerField(null=True)
-    balance = models.DecimalField(max_digits=6,decimal_places=2)
+    rewards = models.IntegerField(null=False,default=0)
+    available_days = models.IntegerField(null=False,default=0)
+    balance = models.DecimalField(null=True,max_digits=6,decimal_places=2)
+    username = models.CharField(max_length=150,blank=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

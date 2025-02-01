@@ -31,12 +31,12 @@
     {% csrf_token %}
     <div class="form-control">
     {{form2.as_p}} 
-{% elif user.available_days < 0 %}
+{% elif user.available_days <= 0 %}
   <form method="POST" action="">
     {% csrf_token %}
     <div class="form-control">
     {{form.as_p}}
-{% endif %}
+  {% endif %}
     <!--
         <select class="form-select" aria-label="Default select example">
           {% for dog in form %}

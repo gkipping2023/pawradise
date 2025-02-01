@@ -6,7 +6,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import User,Dogs, Reserves_Daily, Reserves_Hotel
-from .forms import NewUserForm, Daily_ReserveForm,Hotel_ReserveForm, Daily_ReserveForm2
+from .forms import NewUserForm, Daily_ReserveForm,Hotel_ReserveForm, Daily_ReserveForm2,NewDogForm
 from .filters import Reserves_DailyFilter
 # from django.db.models import Sum,Count
 # from django.core.mail import send_mail, EmailMultiAlternatives
@@ -15,11 +15,11 @@ from .filters import Reserves_DailyFilter
 
 def local_admin(request):
     today = date.today()
-    today_reserves = Reserves_Daily.objects.all()#filter(fecha_in__gte=today)
+    today_reserves = Reserves_Daily.objects.filter(fecha_in__exact=today).order_by('-is_checked_in')
     total_checked_in = today_reserves.filter(is_checked_in=True).count()
     hotel_reserves = Reserves_Hotel.objects.filter(fecha_in__lte=date.today()).filter(fecha_out__gte=date.today())
     hotel_total_checked_in = hotel_reserves.filter(is_checked_in=True).count()
-
+    expected_today = Reserves_Daily.objects.filter(fecha_in__exact=today).count()
     
 
 
@@ -27,6 +27,7 @@ def local_admin(request):
 
     
     context = {
+        'expected_today':expected_today,
         'today_reserves':today_reserves,
         'total_checked_in':total_checked_in,
         'hotel_reserves':hotel_reserves,
@@ -40,7 +41,7 @@ def historial(request):
     users = User.objects.all()
     dogs_input = Dogs.objects.all()
 
-    historial_Diario = Reserves_Daily.objects.all()
+    historial_Diario = Reserves_Daily.objects.all().order_by('-fecha_in')
     historial_Hotel = Reserves_Hotel.objects.all()
 
     filter_today_reserves = Reserves_DailyFilter(request.GET, queryset=historial_Diario)
@@ -152,7 +153,7 @@ def registeruser(request):
             user = form.save(commit=False)
             user.nombre = user.nombre.capitalize()
             user.apellido = user.apellido.capitalize()
-            user.save()
+            user.save() #Aqui esta el error de UNIQUE
             login(request, user)
             return redirect('home')
         else:
@@ -178,6 +179,23 @@ def loginPage(request):
 
     context = {'page' : page}
     return render(request,'main/login.html', context)
+
+def new_dog(request):
+    newdog_form = NewDogForm()
+    if request.method == 'POST':
+        newdog_form = NewDogForm(request.POST, request.FILES)
+        if newdog_form.is_valid():
+            name = newdog_form.save(commit=False)
+            name.propietario = request.user
+            name.nombre = name.nombre.capitalize()
+            name.save()
+            return redirect('home')
+        else:
+            messages.error(request, 'Error ocurred during Registration. Try again or contact Administrator')
+    context = {
+        'newdog_form':newdog_form,
+    }
+    return render(request,'main/register_dog.html',context)
 
 def logoutUser(request):
     logout(request)

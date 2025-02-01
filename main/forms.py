@@ -13,6 +13,13 @@ class NewUserForm(UserCreationForm):
     class Meta:
         model = User
         fields = ['email','nombre','apellido','telefono']
+
+class NewDogForm(ModelForm):
+    class Meta:
+        model = Dogs
+        fields = '__all__'
+        exclude = ['is_special','propietario']
+
 #RESERVE FORM DIARIO
 class Daily_ReserveForm(ModelForm):
     dog = ModelChoiceField(widget=forms.Select(attrs={'class':'form-select'}),queryset=None)

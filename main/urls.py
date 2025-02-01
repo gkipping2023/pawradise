@@ -13,4 +13,5 @@ urlpatterns = [
     path('historial_admin',views.historial,name='historial_admin'),
     path('check_in_out_daily/<int:dog_id>/', views.check_in_out_daily, name='check_in_out_daily'),
     path('check_in_out_hotel/<int:dog_id>/', views.check_in_out_hotel, name='check_in_out_hotel'),
+    path('register_dog',views.new_dog,name='register_dog'),
 ]
