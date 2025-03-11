@@ -1,11 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
+from django.utils.timezone import now
+from datetime import timedelta
 
 # Create your models here.
 class User(AbstractUser):
     nombre = models.CharField(max_length=250)
     apellido = models.CharField(max_length=250,default='None')
-    telefono = models.CharField(max_length=250)
+    telefono = models.CharField(blank=False,max_length=25,default='9999-9999')
     email = models.EmailField(unique=True,max_length=250)
     rewards = models.IntegerField(null=False,default=0)
     available_days = models.IntegerField(null=False,default=0)
@@ -39,7 +41,7 @@ class Dogs(models.Model):
     propietario = models.ForeignKey(User,on_delete=models.CASCADE,max_length=250,null=False)
     is_special = models.BooleanField(default=False)
     photo = models.ImageField(null=True, blank=True, upload_to='images/')
-    vacunacion = models.ImageField(null=True, blank=True, upload_to='images/vacunacion')
+    vacunacion = models.ImageField(null=True, blank=True, upload_to='images/vacunacion',default=None)
 
     def __str__(self):
         return self.nombre
@@ -49,7 +51,24 @@ class Reserves_Daily(models.Model):
     dog = models.ForeignKey(Dogs,on_delete=models.CASCADE,max_length=250,null=False)
     paquete = models.CharField(max_length=250,choices=Paquetes,default='medio')
     fecha_in = models.DateField(default='1900-01-01')
+    check_in = models.DateTimeField(null=True, blank=True)
+    check_out = models.DateTimeField(null=True, blank=True)
     is_checked_in = models.BooleanField(default=False) #By GPT
+    #By GPT
+    def get_duration(self):
+        """Returns the time difference between check-in and check-out as a timedelta object."""
+        if self.check_in and self.check_out:
+            return self.check_out - self.check_in
+        return None
+    #By GPT
+    def get_duration_formatted(self):
+        """Formats the duration as hours and minutes."""
+        duration = self.get_duration()
+        if duration:
+            hours, remainder = divmod(duration.total_seconds(), 3600)
+            minutes, _ = divmod(remainder, 60)
+            return f"{int(hours)}h {int(minutes)}m"
+        return "Not checked out"
 
     def __str__(self):
         return str(self.propietario)

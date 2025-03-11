@@ -1,43 +1,59 @@
 {% load static %}
-<nav class="navbar navbar-expand-lg navbar-primary bg-light">
-    <div class="container justify-content-center">
-      <a class="navbar-brand display-1" href="{% url 'home' %}">Pawradise</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+<nav class="navbar navbar-expand-lg blur border-radius-xl sticky-top top-0 z-index-3 shadow my-3 py-2 start-0 end-0 mx-4">
+    <div class="container-fluid ps-2 pe-0">
+      <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3" href="{% url 'home' %}">Pawradise</a>
+      <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
+              <span class="navbar-toggler-icon mt-2">
+                <span class="navbar-toggler-bar bar1"></span>
+                <span class="navbar-toggler-bar bar2"></span>
+                <span class="navbar-toggler-bar bar3"></span>
+              </span>
+            </button>
+    <div class="collapse navbar-collapse" id="navigation">
+      <ul class="navbar-nav mx-auto">
+      {% if request.user.is_authenticated %}
         <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Nueva Reserva
-          </a>
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Nueva Reserva</a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="{% url 'booking_hotel' %}">Hotel</a></li>
-            <li><a class="dropdown-item" href="{% url 'booking_diario' %}">Diario</a></li>
-            <!-- <li><hr class="dropdown-divider"></li>
-            <li><a class="dropdown-item" href="#">Something else here</a></li> -->
+            <li><a class="dropdown-item" href="{% url 'booking_hotel' %}">Reserva de Hotel</a></li>
+            <li><a class="dropdown-item" href="{% url 'booking_diario' %}">Reserva Diaria</a></li>
           </ul>
         </li>
-        {% comment %}
-        <!-- <li class="nav-item">
-          {% if request.user.is_authenticated %}
-                <a class="nav-link" href="{% url 'profile' user.id %}">Profile</a>
-            {% endif %}
-        </li> -->
-        {% endcomment %}
+        <!-- Borrar -->
         <li class="nav-item">
             <a href="/admin" class="nav-link">dev_Admin</a>
         </li>
-        <li>
-            <a href="{% url 'local_admin' %}" class="nav-link">Admin</a>
+        <!-- Admin Only -->
+        {% if request.user.is_staff == 1 %}
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          Admin
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <li><a href="{% url 'local_admin' %}" class="nav-link">Dashboard</a></li>
+        {% comment %} <li><hr class="dropdown-divider"></li> {% endcomment %}
+            <li><a class="dropdown-item" href="{% url 'historial_admin_diario' %}">Registro de Visitas Diarias</a></li>
+            <li><a class="dropdown-item" href="{% url 'historial_admin_hotel' %}">Registro de Visitas de Hoteles</a></li>
+            <li><a class="dropdown-item" href="{% url 'dogs_file' %}">Registro de Perros</a></li>
+        {% endif %}
+          </ul>
         </li>
         <li class="nav-item">
-            {% if request.user.is_authenticated %}
-              <a class="nav-link text-danger" href="{% url 'logout' %}">Log Out</a>
-            {% else %}
-                <a class="nav-link" href="{% url 'login' %}">Log In</a>
-          {% endif %}
+          <a class="nav-link text-danger" href="{% url 'logout' %}">Log Out</a>
         </li>
+        {% else %}
+        <li class="nav-item">
+            <a href="#" class="nav-link">Contacto</a>
+        </li>
+        <li class="nav-item">
+                <a class="nav-link" href="{% url 'login' %}">Log In</a>
+        </li>
+        <li class="nav-item">
+            <a href="{% url 'registeruser' %}" class="nav-link text-primary text-gradient">Sign up</a>
+        </li>
+        {% endif %}
+        
+        
       </ul>
     </div>
       </div>

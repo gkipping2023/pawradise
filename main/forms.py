@@ -2,6 +2,7 @@ from django.forms import ModelForm, ModelChoiceField
 from .models import User, Reserves_Daily,Dogs, Reserves_Hotel
 from django.contrib.auth.forms import UserCreationForm
 from django import forms
+from crispy_forms.helper import FormHelper
 from datetime import date
 
 class NewUserForm(UserCreationForm):
@@ -9,7 +10,7 @@ class NewUserForm(UserCreationForm):
     apellido = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
     telefono = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','type':'number'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
-    
+
     class Meta:
         model = User
         fields = ['email','nombre','apellido','telefono']
@@ -29,7 +30,7 @@ class Daily_ReserveForm(ModelForm):
     class Meta:
         model = Reserves_Daily
         fields = '__all__'
-        exclude = ['propietario','is_checked_in']
+        exclude = ['propietario','is_checked_in','check_in','check_out']
         
     #Para que solo salgan los perros del usuario actual
     def __init__(self, user, *args, **kwargs):
@@ -43,7 +44,7 @@ class Daily_ReserveForm2(ModelForm):
     class Meta:
         model = Reserves_Daily
         fields = '__all__'
-        exclude = ['propietario','is_checked_in','paquete']
+        exclude = ['propietario','is_checked_in','paquete','check_in','check_out']
         
     #Para que solo salgan los perros del usuario actual
     def __init__(self, user, *args, **kwargs):

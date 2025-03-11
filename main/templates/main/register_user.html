@@ -1,17 +1,23 @@
 {% extends 'index.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
 {% load static %}
-<div class="container text-center">
-    <h1>Welcome to Pawradise</h1>
-</div>
-
-<div class="container-sm">
+<main class="main-content  mt-0">
+    <div class="page-header align-items-start min-vh-100" style="background-image: url('https://images.unsplash.com/photo-1557495235-340eb888a9fb?q=80&w=1413&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');">
+      <span class="mask bg-gradient-dark opacity-8"></span>
+      
+      <div class="text-light container my-auto">
+    
+    <h1 class="text-center text-light text-bold">Welcome to Pawradise</h1>
+<div class="container-sm text-light form-control bg-transparent">
     <form action="" method="POST">
         {% csrf_token %}
-        {{new_user}}
+        {% crispy new_user %}
         <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Registrarse"/>
     </form>
+    </div>
 </div>
-
+</div>
+</main>
 {% endblock %}

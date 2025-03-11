@@ -1,0 +1,99 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% load static %}
+<div class="row">
+    <div class="col">
+        <div class="card card-body">
+            <form method="get" class="form-inline row gx-7">
+        {% for field in dogs_filter1.form %}
+            <div class="col-md-auto">
+                {{ field|as_crispy_field }}
+            </div>
+        {% endfor %}
+            <div class="col-md-auto">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+    <div class="container-fluid py-2">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Registro de Perros</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Sexo</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tarjeta de Vacunacion</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Propietario</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Especial</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ultima Visita</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for dog in dogs_filter %}
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            {% if dog.photo %}
+            <img src="{{ dog.photo.url }}" style="width:50px;height:50px;" class="card-img-top rounded-circle" alt="Dog_Photo">
+            {% else %}
+            <img src="{% static '/img/paw_logo.png' %}" style="width:50px;height:50px;" class="card-img-top " alt="Dog_No_Photo">
+            {% endif %}
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{dog.nombre}}</h6>
+                            <p class="text-xs text-secondary mb-0">{{dog.raza}}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs text-capitalize font-weight-bold mb-0">{{dog.sexo}}</p>
+                        <p class="text-xs text-secondary mb-0"></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        {% if dog.vacunacion|length > 20 %}
+                        <span class="badge badge-sm bg-gradient-success">Si</span>
+                        {% else %}
+                        <span class="badge badge-sm bg-gradient-secondary">No</span>
+                        {% endif %}
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ dog.propietario }} {{ dog.propietario.apellido }}</span>
+                        <p class="text-xs text-secondary mb-0">{{dog.propietario.telefono}}</p>
+                      </td>
+                      
+                      <td class="align-middle text-center text-sm">
+                      {% if dog.is_special is True %}
+                        <span class="badge badge-sm bg-gradient-danger">Si</span>
+                        {% else %}
+                        
+                        {% endif %}
+                      </td>
+                      <td>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+{% endblock %}
+</div>

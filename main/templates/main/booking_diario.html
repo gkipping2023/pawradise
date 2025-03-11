@@ -1,61 +1,33 @@
 {% extends 'index.html' %}
+{% comment %} {% load crispy_forms_tags %} {% endcomment %}
+
 
 {% block content %}
 {% load static %}
-<div class="container">
+<div class="container-sm text-light form-control bg-transparent">
     
 <h3>Hola, {{user.nombre}} {{user.apellido}} </h3>
 <h3> Tienes {{user.available_days}} dias disponibles</h3>
-{{available_days1}}
 
-<!-- <p>Para:</p>
-<select class="form-select" aria-label="Default select example">
-    {% for dog in user_dogs %}
-    <option name="{{dog.nombre}}" selected>{{dog.nombre}}</option>
-    {% endfor %}
-  </select> -->
-<!-- <p>Paquete:</p>
-<select class="form-select" aria-label="Default select example">
-    <option name="halfday" value="halfday"> Medio dia - $7.49</option>
-    <option name="1day" value="1day">Pase Diario - $12.84</option>
-    <option name="3day" value="3day">Pase 3 dias - $35.31</option>
-    <option name="6day" value="6day">Pase 6 dias - $64.20</option>
-    <option name="12day" value="12day">Pase 12 dias - $117.70</option>
-    <option name="24day" value="24day">Pase 24 dias - $214.00</option>
-  </select>
-  <p>Fecha:</p>
-  <input name="reserve_date" class="form-control" type="date"> -->
+
+
   <!-- Form -->
 {% if user.available_days > 0 %}
+<div class="container-sm text-light form-control bg-transparent">
 <form method="POST" action="">
     {% csrf_token %}
     <div class="form-control">
-    {{form2.as_p}} 
+    {{form2.as_p}}
 {% elif user.available_days <= 0 %}
   <form method="POST" action="">
     {% csrf_token %}
     <div class="form-control">
     {{form.as_p}}
   {% endif %}
-    <!--
-        <select class="form-select" aria-label="Default select example">
-          {% for dog in form %}
-            <option name="{{dog.nombre}}" selected>{{dog.nombre}}</option>
-          {% endfor %}
-        </select>
-        <select class="form-select" name="pack" aria-label="Default select example">
-          <option value="medio"> Medio dia - $7.49</option>
-          <option value="1dia">Pase Diario - $12.84</option>
-          <option value="3dias">Pase 3 dias - $35.31</option>
-          <option value="6dias">Pase 6 dias - $64.20</option>
-          <option value="12dias">Pase 12 dias - $117.70</option>
-          <option value="24dias">Pase 24 dias - $214.00</option>
-        </select>
-        <input name="reserve_date" class="form-control" type="date">
-        -->
       <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Save"/>
           </div>
       </form>
+</div>
 </div>
 
 {% endblock %}

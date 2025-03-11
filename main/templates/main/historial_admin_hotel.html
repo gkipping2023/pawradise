@@ -1,0 +1,131 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% load static %}
+<h1>Para Historial de Hoteles</h1>
+<div class="row">
+    <div class="col">
+        <div class="card card-body">
+            <form method="get" class="text-center form-inline row gx-7">
+        {% for field in filter_hotel_reserves.form %}
+            <div class="col-md-auto">
+                {{ field|as_crispy_field }}
+            </div>
+        {% endfor %}
+            <div class="col-md-auto">
+                <button type="submit" class="btn btn-primary">Filtrar</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+    <div class="container-fluid py-2">
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Registro de Visitas de Hotel</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table table-striped align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Sexo</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Propietario</th>
+                      <th class="ext-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Check In/Out</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for entry in historial_Hotel %}
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            {% if entry.dog.photo %}
+            <img src="{{ entry.dog.photo.url }}" style="width:50px;height:50px;" class="card-img-top rounded-circle" alt="Dog_Photo">
+            {% else %}
+            <img src="{% static '/img/paw_logo.png' %}" style="width:50px;height:50px;" class="card-img-top " alt="Dog_No_Photo">
+            {% endif %}
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{entry.dog}}</h6>
+                            <p class="text-xs text-secondary mb-0">{{entry.dog.raza}}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs text-capitalize font-weight-bold mb-0">{{entry.dog.sexo}}</p>
+                        <p class="text-xs text-secondary mb-0"></p>
+                      </td>
+
+                      {% comment %} <td class="align-middle text-center text-sm">
+                        
+                      </td> {% endcomment %}
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ entry.propietario }} {{ entry.propietario.apellido }}</span>
+                        <p class="text-xs text-secondary mb-0">{{entry.propietario.telefono}}</p>
+                      </td>
+                      <td>
+                        <span class="text-success text-xs font-weight-bold">{{ entry.fecha_in }}</span>
+                        <p class="text-xs text-danger text-capitalize font-weight-bold mb-0">{{ entry.fecha_out }}</p>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+<h1>Historial Hotel</h1>
+
+<table class = "table">
+<thead>
+<tr>
+    <th scope="col">dev_id</th>
+    <th scope="col">NOMBRE</th>
+    <th scope="col">INGRESO</th>
+    <th scope="col">SALIDA</th>
+    <th scope="col">PROPIETARIO</th>
+    <th scope="col">CHECK-IN/OUT</th>
+</tr>
+</thead>
+<tbody>
+
+{% for entry in historial_Hotel %}
+<tr>
+    <td>
+        {{entry.id}} 
+    </td>
+    <td>
+        {{entry.dog}}
+    </td>
+    <td>
+        {{entry.fecha_in}}
+    </td>
+    <td>
+        {{entry.fecha_out}}
+    </td>
+    <td>
+        {{entry.propietario}}
+    </td>
+    <td>
+        Check in Time
+    </td>
+</tr>
+{% endfor %}
+
+</tbody>
+</table>
+
+{% endblock %}
+</div>

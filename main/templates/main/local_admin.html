@@ -2,135 +2,253 @@
 
 {% block content %}
 {% load static %}
-
-<div class='container'>
-<a href="/admin/main/reserves_daily/add/" type="button" class="btn btn-success rounded-pill">+ Agregar Diario</a>
-<a href="/admin/main/reserves_hotel/add/" type="button" class="btn btn-success rounded-pill">+ Agregar Hotel</a>
-<a href="{% url 'historial_admin' %}" type="button" class="btn btn-success rounded-pill">Historial</a>
-
-
+<div class="container-fluid py-2">
 <div class="row">
     <div class="col">
       <div class="card border-success mb-2">
-        <div class="card-header p-3 pt-3">
-            <div class="text-center pt-1">
-                <p class="text-sm mb-0 text-capitalize text-success">Para Hoy:</p>
-                <h4 class="mb-0 text-success">{{expected_today}}</h4>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div class="col">
-        <div class="card border-success mb-2">
-          <div class="card-header p-3 pt-3">
-              <div class="text-center pt-1">
-                  <p class="text-sm mb-0 text-capitalize text-success">Total:</p>
-                  <h4 class="mb-0 text-success">{{total_checked_in}}</h4>
+      <div class="card-header p-2 ps-3">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <p class="text-sm mb-0 text-capitalize">Recibidos Hoy:</p>
+                  <h4 class="mb-0">{{porcentaje_diario}}%</h4>
+                </div>
+                <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                  <i class="material-symbols-rounded opacity-10">{{total_checked_in}}</i>
+                </div>
               </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-2 ps-3">
+              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">{{expected_today}} </span>esperados para hoy</p>
+              
+            </div>
           </div>
-      </div>
+        </div>
+
+<div class="col">
+      <div class="card border-success mb-2">
+      <div class="card-header p-2 ps-3">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <p class="text-sm mb-0 text-capitalize">Hoteles:</p>
+                  <h4 class="mb-0">{{porcentaje_hotel}}%</h4>
+                </div>
+                <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                  <i class="material-symbols-rounded opacity-10">{{hotel_total_checked_in}}</i>
+                </div>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-2 ps-3">
+              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">{{hotel_reserves_today}} </span>ingresando hoy</p>
+            </div>
+          </div>
+        </div>
+
+<div class="col">
+<div class="card border-success mb-2">
+      <div class="card-header p-2 ps-3">
+              <div class="d-flex justify-content-between">
+                <div>
+                  <p class="text-sm mb-0 text-capitalize">Total Presentes:</p>
+                  <h4 class="mb-0">{{porcentaje_total_de_conversion}}%</h4>
+                </div>
+                <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
+                  <i class="material-symbols-rounded opacity-10">{{total_presentes}}</i>
+                </div>
+              </div>
+            </div>
+            <hr class="dark horizontal my-0">
+            <div class="card-footer p-2 ps-3">
+              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">{{capacidad_total}}% </span>de capacidad</p>
+            </div>
+          </div>
+        </div>
       </div>
 </div>
 
-<h1>Reservas Diario</h1>
-<table class = "table">
-<thead>
-<tr>
-    <th scope="col">dev_id</th>
-    <th scope="col">NOMBRE</th>
-    <th scope="col">INGRESO</th>
-    <th scope="col">DISPONIBLE</th>
-    <th scope="col">PROPIETARIO</th>
-    <th scope="col">CHECK-IN/OUT</th>
-</tr>
-</thead>
-<tbody>
-
-{% for dog in today_reserves %}
-<tr>
-    <td>
-        {{dog.id}}
-    </td>
-    <td>
-        {{dog.dog}}
-    </td>
-    <td>
-        {{dog.fecha_in}}
-    </td>
-    <td>
-        {{dog.propietario.available_days}} dias
-    </td>
-    <td>
-        {{dog.propietario}} {{dog.propietario.apellido}}
-    </td>
-    <td>
-    <form action="{% url 'check_in_out_daily' dog.id %}" method="POST">
-    {% csrf_token %}
-    {% if dog.is_checked_in %}
-    <button type="Submit" class="btn btn-outline-danger">
-        Check out
-    </button>
-    {% else %}
-    <button type="Submit" class="btn btn-outline-success">
-        Check in
-    </button>
-    {% endif %}
     
-    </form>
-    </td>
-</tr>
+      <div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Visitas de Hoy - Diario</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Sexo</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Disponible</th>
+                      <th class="ext-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Propietario</th>
+                      <th class="ext-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Especial</th>
+                      <th class="ext-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Check In/Out</th>
+                      <th class="ext-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Entrada/Salida</th>
+                      <th class="ext-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Duracion</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for entry in today_reserves %}
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            {% if entry.dog.photo %}
+            <img src="{{ entry.dog.photo.url }}" style="width:50px;height:50px;" class="card-img-top rounded-circle" alt="Dog_Photo">
+            {% else %}
+            <img src="{% static '/img/paw_logo.png' %}" style="width:50px;height:50px;" class="card-img-top " alt="Dog_No_Photo">
+            {% endif %}
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{entry.dog}}</h6>
+                            <p class="text-xs text-secondary mb-0">{{entry.dog.raza}}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs text-capitalize font-weight-bold mb-0">{{entry.dog.sexo}}</p>
+                        <p class="text-xs text-secondary mb-0"></p>
+                      </td>
+                      <td class="align-middle text-center text-sm">
+                        
+                        <span class="badge badge-sm bg-gradient-success">{{entry.dog.propietario.available_days}}</span>
 
-{% endfor %}
-
-</tbody>
-</table>
-<h1>Total Reservas Hotel {{hotel_total_checked_in}}</h1>
-<table class = "table">
-<thead>
-<tr>
-    <th scope="col">NOMBRE</th>
-    <th scope="col">FECHA DE INGRESO</th>
-    <th scope="col">FECHA DE SALIDA</th>
-    <th scope="col">PROPIETARIO</th>
-    <th scope="col">CHECK-IN/OUT</th>
-</tr>
-</thead>
-<tbody>
-
-{% for dog in hotel_reserves %}
-<tr>
-    <td>
-        {{dog.dog}}
-    </td>
-    <td>
-        {{dog.fecha_in}}
-    </td>
-    <td>
-        {{dog.fecha_out}}
-    </td>
-    <td>
-        {{dog.propietario}}
-    </td>
-    <td>
-    <form action="{% url 'check_in_out_hotel' dog.id %}" method="POST">
-    {% csrf_token %}
-    {% if dog.is_checked_in %}
-    <button type="Submit" class="btn btn-outline-danger">
-        Check out
-    </button>
-    {% else %}
-    <button type="Submit" class="btn btn-outline-success">
-        Check in
-    </button>
-    {% endif %}
-    
-    </form>
-    </td>
-</tr>
-{%endfor%}
-
-</tbody>
-</table>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ entry.dog.propietario }} {{ entry.dog.propietario.apellido }}</span>
+                        <p class="text-xs text-secondary mb-0">{{entry.dog.propietario.telefono}}</p>
+                      </td>
+                      <td>
+                      {% if entry.dog.is_special is True %}
+                        <p class="text text-center text-danger text-bold">Yes</p>
+                        {% else %}
+                        
+                        {% endif %}
+                      </td>
+                      <td>
+                      {% if entry.check_out %}
+                            <button type="Submit" class="btn btn-outline-secondary" disabled>
+                                Checked Out
+                            </button>
+                      {% else %}
+                      <form action="{% url 'check_in_out_daily' entry.id %}" method="POST">
+                        {% csrf_token %}
+                            {% if entry.is_checked_in %}
+                            <button type="Submit" class="btn btn-outline-secondary">
+                                Check out
+                            </button>
+                            {% else %}
+                            <button type="Submit" class="btn btn-outline-primary">
+                                Check in
+                            </button>
+                            {% endif %}
+                      {% endif %}
+                        </form>
+                      </td>
+                      <td>
+                        <span class="text-success text-xs font-weight-bold">{{ entry.check_in }}</span>
+                        <p class="text-xs text-danger text-capitalize font-weight-bold mb-0">{{ entry.check_out }}</p>
+                      </td>
+                      <td>
+                        {{ entry.get_duration_formatted }}
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+<div class="container-fluid py-2">
+<div class="row">
+        <div class="col-12">
+          <div class="card my-4">
+            <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
+              <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+                <h6 class="text-white text-capitalize ps-3">Visitas de Hotel</h6>
+              </div>
+            </div>
+            <div class="card-body px-0 pb-2">
+              <div class="table-responsive p-0">
+                <table class="table align-items-center mb-0">
+                  <thead>
+                    <tr>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Sexo</th>
+                      <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Fecha de Ingreso</th>
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Fecha de Salida</th>
+                      <th class="ext-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Propietario</th>
+                      <th class="ext-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Especial</th>
+                      <th class="ext-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Check In/Out</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                  {% for entryh in hotel_reserves %}
+                    <tr>
+                      <td>
+                        <div class="d-flex px-2 py-1">
+                          <div>
+                            {% if entryh.dog.photo %}
+            <img src="{{ entryh.dog.photo.url }}" style="width:50px;height:50px;" class="card-img-top rounded-circle" alt="Dog_Photo">
+            {% else %}
+            <img src="{% static '/img/paw_logo.png' %}" style="width:50px;height:50px;" class="card-img-top " alt="Dog_No_Photo">
+            {% endif %}
+                          </div>
+                          <div class="d-flex flex-column justify-content-center">
+                            <h6 class="mb-0 text-sm">{{entryh.dog}}</h6>
+                            <p class="text-xs text-secondary mb-0">{{entryh.dog.raza}}</p>
+                          </div>
+                        </div>
+                      </td>
+                      <td>
+                        <p class="text-xs text-capitalize font-weight-bold mb-0">{{entryh.dog.sexo}}</p>
+                        <p class="text-xs text-secondary mb-0"></p>
+                      </td>
+                      <td>
+                      <p class="text-xs text-capitalize font-weight-bold mb-0">{{entryh.fecha_in}}</p>
+                      </td>
+                      <td>
+                      <p class="text-xs text-capitalize font-weight-bold mb-0">{{entryh.fecha_out}}</p>
+                      </td>
+                      <td class="align-middle text-center">
+                        <span class="text-secondary text-xs font-weight-bold">{{ entryh.dog.propietario }} {{ entryh.dog.propietario.apellido }}</span>
+                        <p class="text-xs text-secondary mb-0">{{entryh.dog.propietario.telefono}}</p>
+                      </td>
+                      <td>
+                      {% if entryh.is_special is True %}
+                        <p class="text text-danger text-bold">Yes</p>
+                        {% else %}
+                        
+                        {% endif %}
+                      </td>
+                      <td>
+                      <form action="{% url 'check_in_out_hotel' entryh.id %}" method="POST">
+                        {% csrf_token %}
+                            {% if entryh.is_checked_in %}
+                            <button type="Submit" class="btn btn-outline-secondary">
+                                Check out
+                            </button>
+                            {% else %}
+                            <button type="Submit" class="btn btn-outline-primary">
+                                Check in
+                            </button>
+                            {% endif %}
+                        </form>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 </div>
-
 {% endblock %}
