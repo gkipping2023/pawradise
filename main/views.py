@@ -238,7 +238,7 @@ def loginPage(request):
 
         if user is not None:
             login(request, user)
-            if user.is_staff is 1:
+            if user.is_staff == 1:
                 return redirect('home')
             else:
                 return redirect('local_admin')
@@ -269,7 +269,3 @@ def new_dog(request):
 def logoutUser(request):
     logout(request)
     return redirect('login')
-
-#Borrar
-def test(request):
-    return render(request,'main/test.html',{})

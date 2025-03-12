@@ -84,48 +84,5 @@
           </div>
         </div>
       </div>
-
-
-<h1>Historial Hotel</h1>
-
-<table class = "table">
-<thead>
-<tr>
-    <th scope="col">dev_id</th>
-    <th scope="col">NOMBRE</th>
-    <th scope="col">INGRESO</th>
-    <th scope="col">SALIDA</th>
-    <th scope="col">PROPIETARIO</th>
-    <th scope="col">CHECK-IN/OUT</th>
-</tr>
-</thead>
-<tbody>
-
-{% for entry in historial_Hotel %}
-<tr>
-    <td>
-        {{entry.id}} 
-    </td>
-    <td>
-        {{entry.dog}}
-    </td>
-    <td>
-        {{entry.fecha_in}}
-    </td>
-    <td>
-        {{entry.fecha_out}}
-    </td>
-    <td>
-        {{entry.propietario}}
-    </td>
-    <td>
-        Check in Time
-    </td>
-</tr>
-{% endfor %}
-
-</tbody>
-</table>
-
 {% endblock %}
 </div>

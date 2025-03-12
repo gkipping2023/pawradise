@@ -16,7 +16,6 @@ urlpatterns = [
     path('check_in_out_hotel/<int:dog_id>/', views.check_in_out_hotel, name='check_in_out_hotel'),
     path('register_dog',views.new_dog,name='register_dog'),
     path('dogs_file',views.DogsFile,name='dogs_file'),
-    path('test',views.test,name='test'),#BORRAR
 
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name='main/password_reset_view.html'),name='reset_password'),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name='main/password_reset_sent.html'),name='password_reset_done'),
