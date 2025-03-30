@@ -4,6 +4,7 @@
 
 {% block content %}
 {% load static %}
+
 <div class="container-sm text-light form-control bg-transparent">
     
 <h3>Hola, {{user.nombre}} {{user.apellido}} </h3>
@@ -30,4 +31,13 @@
 </div>
 </div>
 
+<script>
+      document.getElementById("checkin").addEventListener("input", function() {
+          let selectedDate = new Date(this.value);
+          if (selectedDate.getDay() === 6) { // 0 = Sunday
+              alert("Sundays are not allowed! Please select another day.");
+              this.value = ""; // Reset input field
+          }
+      });
+</script>
 {% endblock %}

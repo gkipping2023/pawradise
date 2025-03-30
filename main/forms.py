@@ -21,11 +21,21 @@ class NewDogForm(ModelForm):
         fields = '__all__'
         exclude = ['is_special','propietario']
 
+class Daily_ReserveForm_admin(ModelForm):
+    dog = ModelChoiceField(widget=forms.Select(attrs={'class':'form-select'}),queryset=Dogs.objects.all())
+    paquete = forms.Select(attrs={'class':'form-select','name':'paquete'})
+    fecha_in = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
+
+    class Meta:
+        model = Reserves_Daily
+        fields = '__all__'
+        exclude = ['is_checked_in','check_in','check_out']
+
 #RESERVE FORM DIARIO
 class Daily_ReserveForm(ModelForm):
     dog = ModelChoiceField(widget=forms.Select(attrs={'class':'form-select'}),queryset=None)
     paquete = forms.Select(attrs={'class':'form-select','name':'paquete'})
-    fecha_in = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control'}))
+    fecha_in = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
 
     class Meta:
         model = Reserves_Daily
@@ -39,7 +49,7 @@ class Daily_ReserveForm(ModelForm):
 
 class Daily_ReserveForm2(ModelForm):
     dog = ModelChoiceField(widget=forms.Select(attrs={'class':'form-select'}),queryset=None)
-    fecha_in = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control'}))
+    fecha_in = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
 
     class Meta:
         model = Reserves_Daily
@@ -54,8 +64,8 @@ class Daily_ReserveForm2(ModelForm):
 #RESERVE FORM HOTEL
 class Hotel_ReserveForm(ModelForm):
     dog = ModelChoiceField(widget=forms.Select(attrs={'class':'form-select'}),queryset=None)
-    fecha_in = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control'}))
-    fecha_out = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control'}))
+    fecha_in = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
+    fecha_out = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkout'}))
 
 
     class Meta:

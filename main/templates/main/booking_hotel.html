@@ -15,4 +15,45 @@
       </form>
 </div>
 
+
+<script>
+    function isSunday(date) {
+        return new Date(date).getDay() === 6;  // 0 = Sunday
+    }
+
+    function checkDates() {
+        let checkin = document.getElementById("checkin").value;
+        let checkout = document.getElementById("checkout").value;
+
+        if (isSunday(checkin)) {
+            alert("Check-in is not allowed on Sundays.");
+            document.getElementById("checkin").value = "";
+        }
+
+        if (isSunday(checkout)) {
+            alert("Check-out is not allowed on Sundays.");
+            document.getElementById("checkout").value = "";
+        }
+
+        if (checkin && checkout) {
+            let start = new Date(checkin);
+            let end = new Date(checkout);
+
+            while (start <= end) {
+                if (isSunday(start)) {
+                    alert("Bookings cannot include Sundays.");
+                    document.getElementById("checkin").value = "";
+                    document.getElementById("checkout").value = "";
+                    break;
+                }
+                start.setDate(start.getDate() + 1);
+            }
+        }
+    }
+
+    document.getElementById("checkin").addEventListener("change", checkDates);
+    document.getElementById("checkout").addEventListener("change", checkDates);
+</script>
+
+
 {% endblock %}

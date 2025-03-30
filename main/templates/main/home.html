@@ -74,7 +74,7 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Sexo</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tarjeta de Vacunacion</th>
-                      <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Ultima Visita</th> -->
+                      <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto</th> -->
                     </tr>
                   </thead>
                   <tbody>
@@ -107,9 +107,13 @@
                         <span class="badge badge-sm bg-gradient-secondary">No</span>
                         {% endif %}
                       </td>
-                      <!-- <td class="align-middle text-center">
-                        <span class="text-secondary text-xs font-weight-bold">23/04/18</span>
-                      </td> -->
+                      <td class="align-middle">
+                        <!-- <form method="POST">
+                          {% csrf_token %}
+                          {{newdog_form.photo}}
+                          <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Save"/>
+                        </form> -->
+                      </td>
                     </tr>
                     {% endfor %}
                   </tbody>

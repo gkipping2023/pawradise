@@ -7,15 +7,32 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import User,Dogs, Reserves_Daily, Reserves_Hotel
-from .forms import NewUserForm, Daily_ReserveForm,Hotel_ReserveForm, Daily_ReserveForm2,NewDogForm
+from .forms import NewUserForm, Daily_ReserveForm,Hotel_ReserveForm, Daily_ReserveForm2,NewDogForm,Daily_ReserveForm_admin
 from .filters import Reserves_DailyFilter, DogsFilter, Reserves_HotelFilter
 # from django.db.models import Sum,Count
 # from django.core.mail import send_mail, EmailMultiAlternatives
 
 # Create your views here.
 
+def admin_new_dog(request):
+    add_dog_form = Daily_ReserveForm_admin()
+    if request.method == 'POST':
+        add_dog_form = Daily_ReserveForm_admin(request.POST)
+        if add_dog_form.is_valid():
+            add_dog_form.save(commit=False)
+            add_dog_form.propietario = 'Entrada Manual'
+            add_dog_form.save()
+            return redirect('local_admin')
+        else:
+            messages.error(request, add_dog_form.errors)
+    context ={
+        'add_dog_form':add_dog_form,
+    }
+    return render(request,'main/adddog_form.html',context)
+
 def local_admin(request):
     today = date.today()
+    capacidad_instalada = 50
     today_reserves = Reserves_Daily.objects.filter(fecha_in__exact=today).order_by('-is_checked_in')
     total_checked_in = today_reserves.filter(is_checked_in=True).count()
     hotel_reserves = Reserves_Hotel.objects.filter(fecha_in__lte=date.today()).filter(fecha_out__gte=date.today())#Lista de Reservas
@@ -23,22 +40,27 @@ def local_admin(request):
     hotel_total_checked_in = hotel_reserves.filter(is_checked_in=True).count() #Total de Reservas H checked in
     expected_today = Reserves_Daily.objects.filter(fecha_in__exact=today).count() #Total de reservasD para hoy
     total_presentes = total_checked_in + hotel_total_checked_in
+    # try/except en test, para avanzar con queryset vacio.
     try:
-        porcentaje_diario = round(total_checked_in/expected_today*100,2)
-        porcentaje_hotel = round(hotel_total_checked_in/hotel_reserves_today*100,2)
-        capacidad_total = round(total_presentes/70*100,2)
-        x = total_checked_in + hotel_total_checked_in
-        y = expected_today + hotel_reserves_today
-        porcentaje_total_de_conversion = round(x/y*100,2)
-    except: #BORRAR
+        porcentaje_diario = round(total_checked_in/expected_today*100,1)
+    except:
         porcentaje_diario = 0
+    try:
+        porcentaje_hotel = round(hotel_total_checked_in/hotel_reserves_today*100,2)
+    except:
         porcentaje_hotel = 0
+    try:
+        capacidad_total = round(total_presentes/capacidad_instalada*100,2)
+    except:
         capacidad_total = 0
-        x = total_checked_in + hotel_total_checked_in
-        y = expected_today + hotel_reserves_today
+    x = total_checked_in + hotel_total_checked_in
+    y = expected_today + hotel_reserves_today
+    try:
+        porcentaje_total_de_conversion = round(x/y*100,2)
+    except:
         porcentaje_total_de_conversion = 0
         
-    #print(total_checked_in/expected_today*100,'%')
+    print(expected_today,'%')
 
     #available_days1 = User.objects.get(id=user.id)
 
@@ -46,6 +68,7 @@ def local_admin(request):
     context = {
         'porcentaje_total_de_conversion':porcentaje_total_de_conversion,
         'capacidad_total':capacidad_total,
+        'capacidad_instalada':capacidad_instalada,
         'porcentaje_hotel':porcentaje_hotel,
         'porcentaje_diario':porcentaje_diario,
         'total_presentes':total_presentes,
@@ -59,11 +82,8 @@ def local_admin(request):
     return render(request,'main/local_admin.html',context)
 
 def historial_diario(request):
-
-    
     users = User.objects.all()
     dogs_input = Dogs.objects.all()
-
     historial_Diario = Reserves_Daily.objects.all().order_by('-fecha_in')
     historial_Hotel = Reserves_Hotel.objects.all()
 
@@ -80,18 +100,11 @@ def historial_diario(request):
     return render(request,'main/historial_admin_diario.html',context)
 
 def historial_hotel(request):
-
-    
     users = User.objects.all()
     dogs_input = Dogs.objects.all()
-
-    
     historial_Hotel = Reserves_Hotel.objects.all().order_by('-fecha_in')
-
     filter_hotel_reserves = Reserves_HotelFilter(request.GET, queryset=historial_Hotel)
     historial_Hotel = filter_hotel_reserves.qs
-    
-
     context = {
         'filter_hotel_reserves':filter_hotel_reserves,
         'dogs_input': dogs_input,
@@ -131,8 +144,18 @@ def home(request):
     user = request.user
     rewards = user.rewards
     user_dogs = Dogs.objects.filter(propietario__exact=request.user)
+    newdog_form = NewDogForm()
+    if request.method == 'POST':
+        newdog_form = NewDogForm(request.POST, request.FILES)
+        if newdog_form.is_valid():
+            newdog_form.save()
+            return redirect('home')
+        else:
+            print(newdog_form.errors)
+            messages.error(request, 'Error ocurred during Registration. Try again or contact Administrator')
     context = {
         'user_dogs':user_dogs,
+        'newdog_form':newdog_form,
     }
     return render(request,'main/home.html',context)
 
@@ -239,9 +262,9 @@ def loginPage(request):
         if user is not None:
             login(request, user)
             if user.is_staff == 1:
-                return redirect('home')
-            else:
                 return redirect('local_admin')
+            else:
+                return redirect('home')
         else:
             messages.error(request, 'Invalid Username OR Password')
 

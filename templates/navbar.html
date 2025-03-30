@@ -1,7 +1,11 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg blur border-radius-xl sticky-top top-0 z-index-3 shadow my-3 py-2 start-0 end-0 mx-4">
     <div class="container-fluid ps-2 pe-0">
+      {% if request.user.is_staff == 1 %}
+      <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3" href="{% url 'local_admin' %}">Pawradise</a>
+      {% else %}
       <a class="navbar-brand font-weight-bolder ms-lg-0 ms-3" href="{% url 'home' %}">Pawradise</a>
+      {% endif %}
       <button class="navbar-toggler shadow-none ms-2" type="button" data-bs-toggle="collapse" data-bs-target="#navigation" aria-controls="navigation" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon mt-2">
                 <span class="navbar-toggler-bar bar1"></span>
@@ -11,6 +15,9 @@
             </button>
     <div class="collapse navbar-collapse" id="navigation">
       <ul class="navbar-nav mx-auto">
+        <li class="nav-item">
+          <a href="/home" class="nav-link">Home</a>
+      </li>
       {% if request.user.is_authenticated %}
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" id="navbarDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">Nueva Reserva</a>
@@ -20,9 +27,11 @@
           </ul>
         </li>
         <!-- Borrar -->
+        {% if request.user.is_superuser == 1 %}
         <li class="nav-item">
             <a href="/admin" class="nav-link">dev_Admin</a>
         </li>
+        {% endif %}
         <!-- Admin Only -->
         {% if request.user.is_staff == 1 %}
         <li class="nav-item dropdown">

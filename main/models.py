@@ -26,7 +26,7 @@ Sexo_Choices = (
 )
 
 Paquetes = (
-    ('medio','Medio dia - $7.49'),
+    ('1','Medio dia - $7.49'),
     ('1','Pase Diario - $12.84'),
     ('3','Pase 3 dias - $35.31'),
     ('6','Pase 6 dias - $64.20'),

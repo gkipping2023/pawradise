@@ -19,7 +19,7 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">{{expected_today}} </span>esperados para hoy</p>
+              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">{{expected_today}} </span>esperados hoy</p>
               
             </div>
           </div>
@@ -60,7 +60,13 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">{{capacidad_total}}% </span>de capacidad</p>
+              {% if capacidad_total <= 50 %}
+              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">{{capacidad_total}}% </span>de capacidad de {{capacidad_instalada}}</p>
+              {% elif capacidad_total <= 75 %}
+              <p class="mb-0 text-sm"><span class="text-warning font-weight-bolder">{{capacidad_total}}% </span>de capacidad de {{capacidad_instalada}}</p>
+              {% elif capacidad_total > 75 %}
+              <p class="mb-0 text-sm"><span class="text-danger font-weight-bolder">{{capacidad_total}}% </span>de capacidad de {{capacidad_instalada}}</p>
+              {% endif %}
             </div>
           </div>
         </div>
@@ -74,6 +80,7 @@
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
                 <h6 class="text-white text-capitalize ps-3">Visitas de Hoy - Diario</h6>
+                <a href="{% url 'admin_new_reserve' %}" type="button" class="btn btn-success position-absolute top-50 end-0 rounded-pill">+ Agregar Reserva</a>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -124,7 +131,7 @@
                       </td>
                       <td>
                       {% if entry.dog.is_special is True %}
-                        <p class="text text-center text-danger text-bold">Yes</p>
+                      <span class="badge badge-sm bg-gradient-danger">Si</span>
                         {% else %}
                         
                         {% endif %}

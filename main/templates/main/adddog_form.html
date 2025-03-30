@@ -1,0 +1,26 @@
+{% extends 'index.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+{% load static %}
+
+<h2>Selecciona el Perro:</h2>
+<form method="POST" action="">
+    {% csrf_token %}
+    <div class="form-control">
+        <label for="dog">Nombre:</label>
+        {{ add_dog_form.dog }}
+        <br><br>
+        <label>Propietario</label>
+        {{add_dog_form.propietario}}
+        <br><br>
+        <label for="dog">Paquete:</label>
+        {{ add_dog_form.paquete }}
+        <br><br>
+        <label for="dog">Fecha de Ingreso:</label>
+        {{ add_dog_form.fecha_in }}
+        <br><br>
+      <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Save"/>
+          </div>
+      </form>
+{% endblock %}
