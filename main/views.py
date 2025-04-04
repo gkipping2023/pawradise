@@ -7,7 +7,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from .models import User,Dogs, Reserves_Daily, Reserves_Hotel
-from .forms import NewUserForm, Daily_ReserveForm,Hotel_ReserveForm, Daily_ReserveForm2,NewDogForm,Daily_ReserveForm_admin
+from .forms import NewUserForm, Daily_ReserveForm,Hotel_ReserveForm, Daily_ReserveForm2,NewDogForm,Daily_ReserveForm_admin,Daily_ReserveForm_Hotel_admin
 from .filters import Reserves_DailyFilter, DogsFilter, Reserves_HotelFilter
 # from django.db.models import Sum,Count
 # from django.core.mail import send_mail, EmailMultiAlternatives
@@ -29,6 +29,22 @@ def admin_new_dog(request):
         'add_dog_form':add_dog_form,
     }
     return render(request,'main/adddog_form.html',context)
+
+def admin_new_dog_hotel(request):
+    add_dog_form = Daily_ReserveForm_Hotel_admin()
+    if request.method == 'POST':
+        add_dog_form = Daily_ReserveForm_Hotel_admin(request.POST)
+        if add_dog_form.is_valid():
+            add_dog_form.save(commit=False)
+            add_dog_form.propietario = 'Entrada Manual'
+            add_dog_form.save()
+            return redirect('local_admin')
+        else:
+            messages.error(request, add_dog_form.errors)
+    context ={
+        'add_dog_form':add_dog_form,
+    }
+    return render(request,'main/adddog_hotel_form.html',context)
 
 def local_admin(request):
     today = date.today()

@@ -31,6 +31,15 @@ class Daily_ReserveForm_admin(ModelForm):
         fields = '__all__'
         exclude = ['is_checked_in','check_in','check_out']
 
+class Daily_ReserveForm_Hotel_admin(ModelForm):
+    dog = ModelChoiceField(widget=forms.Select(attrs={'class':'form-select'}),queryset=Dogs.objects.all())
+    fecha_in = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
+    fecha_out = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
+
+    class Meta:
+        model = Reserves_Hotel
+        fields = '__all__'
+
 #RESERVE FORM DIARIO
 class Daily_ReserveForm(ModelForm):
     dog = ModelChoiceField(widget=forms.Select(attrs={'class':'form-select'}),queryset=None)

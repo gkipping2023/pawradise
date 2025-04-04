@@ -73,14 +73,14 @@
       </div>
 </div>
 
-    
+<div class="container-fluid py-2">
       <div class="row">
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
                 <h6 class="text-white text-capitalize ps-3">Visitas de Hoy - Diario</h6>
-                <a href="{% url 'admin_new_reserve' %}" type="button" class="btn btn-success position-absolute top-50 end-0 rounded-pill">+ Agregar Reserva</a>
+                <a href="{% url 'admin_new_reserve' %}" type="button" class="btn btn-success position-absolute top-50 end-0 rounded-pill">+ Agregar Reserva Diaria</a>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -179,6 +179,7 @@
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
                 <h6 class="text-white text-capitalize ps-3">Visitas de Hotel</h6>
+                <a href="{% url 'admin_new_reserve_hotel' %}" type="button" class="btn btn-success position-absolute top-50 end-0 rounded-pill">+ Agregar Reserva de Hotel</a>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
