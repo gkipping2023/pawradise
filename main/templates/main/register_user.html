@@ -11,13 +11,76 @@
     
     <h1 class="text-center text-light text-bold">Welcome to Pawradise</h1>
 <div class="container-sm text-light form-control bg-transparent">
-    <form action="" method="POST">
+    <form id="registerForm" action="" method="POST">
         {% csrf_token %}
         {{new_user|crispy}}
+        <!-- Terms and Conditions Checkbox -->
+        <div class="form-check my-3">
+            <input class="form-check-input" type="checkbox" id="termsCheckbox">
+            <label class="form-check-label text-light" for="termsCheckbox">
+                Acepto los <a class="text-primary" href="#" data-bs-toggle="modal" data-bs-target="#termsModal">Terminos y Condiciones</a>
+            </label>
+        </div>
         <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" value="Registrarse"></input>
     </form>
     </div>
 </div>
 </div>
 </main>
+<!-- Terms and Conditions Modal -->
+<div class="modal fade" id="termsModal" tabindex="-1" aria-labelledby="termsModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="termsModalLabel">Terms and Conditions</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p><strong>Acuerdo de Responsabilidad – Pawradise 🐶</strong></br>
+            En Pawradise, nos encanta ver a nuestros huéspedes felices, libres y disfrutando en manada. Cuidamos a cada perrito como si fuera parte de nuestra familia, pero es importante que como tutor comprendas y aceptes ciertos puntos importantes para garantizar una buena experiencia para todos:
+          </br>
+        </br>
+            <strong>Sobre accidentes o imprevistos</strong>
+            Nuestro equipo está pendiente de todos los perritos en todo momento, pero al estar en un ambiente libre, donde juegan, corren y conviven con otros, pueden ocurrir accidentes, peleas leves o situaciones fuera de nuestro control. El tutor acepta que estas situaciones son parte de una convivencia natural entre animales y libera a Pawradise de toda responsabilidad por cualquier incidente que no derive de negligencia directa (es decir, descuido evidente, falta de supervisión o incumplimiento de protocolos básicos por parte del equipo).
+        </br>
+    </br>
+            <strong>Salidas en grupo y convivencia</strong>
+            Todos los perritos salen juntos a jugar y socializar. En Pawradise convivimos con perros de todos los tamaños, edades y razas, siempre y cuando sean amigables y sociables. Al dejar a tu mascota con nosotros, aceptas este tipo de convivencia.
+            Si tu perrito necesita algún trato especial (alimentación, espacio, actividad física, etc.), es fundamental que lo indiques antes de dejarlo en la guardería, con el fin de evitar accidentes o situaciones incómodas.
+        </br>
+    </br>
+            <strong>Salud y vacunas al día</strong>
+            Para el bienestar de todos, tu perrito debe ingresar sano, desparasitado y con sus vacunas completas y actualizadas. No se aceptan excepciones.
+        </br>
+    </br>
+            <strong>Comportamiento</strong>
+            Si detectamos conductas agresivas, destructivas o que pongan en riesgo a otros perros o al equipo, Pawradise se reserva el derecho de aislar al perrito o solicitar su recogida anticipada, y de ser necesario, reservar el derecho de admisión.
+        </br>
+    </br>
+            <strong>Objetos personales</strong>
+            Por temas de organización y responsabilidad, no aceptamos objetos personales (juguetes, platos, camas, correas, etc.). Solo puedes traer su alimento, bien identificado y por porciones.
+        </br>
+    </br>
+            <strong>Horarios y puntualidad</strong>
+            Los horarios de entrada y salida deben respetarse para mantener una buena dinámica en el grupo. Cualquier retraso puede generar cargos adicionales o interferir con nuestras actividades diarias.
+        </br>
+    </br>
+            Al dejar a tu perrito en Pawradise, aceptas estos términos y confías en que lo cuidaremos con todo el amor y responsabilidad que merece 🐾💛</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script>
+    // Prevent form submission if the checkbox is not checked
+    document.getElementById('registerForm').addEventListener('submit', function(event) {
+        const termsCheckbox = document.getElementById('termsCheckbox');
+        if (!termsCheckbox.checked) {
+            event.preventDefault();
+            alert('Debes leer y aceptar los Terminos y Condiciones para registrarte.');
+        }
+    });
+</script>
 {% endblock %}
