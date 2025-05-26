@@ -18,6 +18,8 @@ urlpatterns = [
     path('dogs_file',views.DogsFile,name='dogs_file'),
     path('admin_new_reserve',views.admin_new_dog,name='admin_new_reserve'),
     path('admin_new_reserve_hotel',views.admin_new_dog_hotel,name='admin_new_reserve_hotel'),
+    path('update_dog_photo/<int:dog_id>/', views.update_dog_photo, name='update_dog_photo'),
+
 
     path('reset_password/', auth_views.PasswordResetView.as_view(template_name='main/password_reset_view.html'),name='reset_password'),
     path('reset_password_sent/', auth_views.PasswordResetDoneView.as_view(template_name='main/password_reset_sent.html'),name='password_reset_done'),

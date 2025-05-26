@@ -6,6 +6,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404
 from .models import User,Dogs, Reserves_Daily, Reserves_Hotel
 from .forms import NewUserForm, Daily_ReserveForm,Hotel_ReserveForm, Daily_ReserveForm2,NewDogForm,Daily_ReserveForm_admin,Daily_ReserveForm_Hotel_admin
 from .filters import Reserves_DailyFilter, DogsFilter, Reserves_HotelFilter
@@ -13,6 +14,15 @@ from .filters import Reserves_DailyFilter, DogsFilter, Reserves_HotelFilter
 # from django.core.mail import send_mail, EmailMultiAlternatives
 
 # Create your views here.
+
+@login_required(login_url='login')
+def update_dog_photo(request, dog_id):
+    dog = get_object_or_404(Dogs, id=dog_id, propietario=request.user)
+    if request.method == 'POST' and 'photo' in request.FILES:
+        dog.photo = request.FILES['photo']
+        dog.save()
+        messages.success(request, 'Foto actualizada correctamente.')
+    return redirect('home')
 
 def admin_new_dog(request):
     add_dog_form = Daily_ReserveForm_admin()
@@ -262,6 +272,7 @@ def registeruser(request):
             return redirect('home')
         else:
             messages.error(request, 'Error ocurred during Registration. Try again or contact Administrator')
+            print(form.errors)
     context = {
         'new_user': new_user,
     }

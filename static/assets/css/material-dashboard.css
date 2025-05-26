@@ -29,17 +29,17 @@
   --bs-gray-700: #404040;
   --bs-gray-800: #262626;
   --bs-gray-900: #171717;
-  --bs-primary: #e91e63;
+  --bs-primary: #cc688b;
   --bs-secondary: #737373;
   --bs-success: #4CAF50;
   --bs-info: #1A73E8;
-  --bs-warning: #fb8c00;
+  --bs-warning: #c500fb;
   --bs-danger: #F44335;
   --bs-light: #e5e5e5;
   --bs-dark: #262626;
   --bs-white: #fff;
   --bs-dark-blue: #1A237E;
-  --bs-primary-rgb: 233, 30, 99;
+  --bs-primary-rgb: 204, 104, 139;
   --bs-secondary-rgb: 115, 115, 115;
   --bs-success-rgb: 76, 175, 80;
   --bs-info-rgb: 26, 115, 232;
@@ -3863,8 +3863,8 @@ fieldset:disabled .btn {
 
 .btn-primary {
   --bs-btn-color: #0a0a0a;
-  --bs-btn-bg: #e91e63;
-  --bs-btn-border-color: #e91e63;
+  --bs-btn-bg: #cc688b;
+  --bs-btn-border-color: #cc688b;
   --bs-btn-hover-color: #0a0a0a;
   --bs-btn-hover-bg: rgb(236.3, 63.75, 122.4);
   --bs-btn-hover-border-color: rgb(235.2, 52.5, 114.6);

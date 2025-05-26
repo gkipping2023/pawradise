@@ -29,6 +29,16 @@ class Reserves_DailyFilter(django_filters.FilterSet):
         fields = '__all__'
         exclude = ['is_checked_in','fecha_in','paquete','check_in','check_out']
 
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field in self.filters:
+            self.filters[field].field.widget.attrs.update({
+                'class': 'form-control text-center',
+                'placeholder': self.filters[field].label
+            })
+
+    
+
 class Reserves_HotelFilter(django_filters.FilterSet):
     Date_from = DateFilter(
         field_name='fecha_in',

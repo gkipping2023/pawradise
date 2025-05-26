@@ -6,10 +6,10 @@ from crispy_forms.helper import FormHelper
 from datetime import date
 
 class NewUserForm(UserCreationForm):
-    nombre = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    apellido = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}))
-    telefono = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control','type':'number'}))
-    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control'}))
+    nombre = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control text-primary border-primary'}))
+    apellido = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control text-primary border-primary'}))
+    telefono = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control text-primary border-primary','type':'tel', 'pattern':'[0-9]{4}-[0-9]{4}','placeholder':'Ej: 1234-5678'}))
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control text-primary border-primary','type':'email'}))
 
     class Meta:
         model = User

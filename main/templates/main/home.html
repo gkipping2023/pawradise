@@ -61,9 +61,9 @@
         <div class="col-12">
           <div class="card my-4">
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
-              <div class="bg-gradient-dark shadow-dark border-radius-lg pt-4 pb-3">
+              <div class="bg-gradient-primary shadow-dark border-radius-lg pt-4 pb-3">
                 <h6 class="text-white text-capitalize ps-3">Tus Perros</h6>
-                <a href="{% url 'register_dog' %}" type="button" class="btn btn-success position-absolute top-50 end-0 rounded-pill">+ Add Dog</a>
+                <a href="{% url 'register_dog' %}" type="button" class="btn btn-light position-absolute bottom-5 end-2 rounded-pill">+ Add Dog</a>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -74,7 +74,7 @@
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Nombre</th>
                       <th class="text-uppercase text-secondary text-xxs font-weight-bolder opacity-7 ps-2">Sexo</th>
                       <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Tarjeta de Vacunacion</th>
-                      <!-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto</th> -->
+                      <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder opacity-7">Foto</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -107,13 +107,15 @@
                         <span class="badge badge-sm bg-gradient-secondary">No</span>
                         {% endif %}
                       </td>
-                      <td class="align-middle">
-                        <!-- <form method="POST">
-                          {% csrf_token %}
-                          {{newdog_form.photo}}
-                          <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Save"/>
-                        </form> -->
+                      <div class="mb-3">
+                        <td class="align-middle form-control text-center mb-3">
+                        <form action="{% url 'update_dog_photo' dog.id %}" method="POST" enctype="multipart/form-data" style="margin-top:5px;">
+                        {% csrf_token %}
+                        <input type="file" class="form-control form-control-sm" id="formFile" name="photo" accept="image/*" style="width:120px;display:inline-block;" required>
+                        <button type="submit" class="btn btn-sm btn-outline-primary py-0 px-2" style="font-size:12px;">Actualizar Foto</button>
+                        </form>
                       </td>
+                      </div>
                     </tr>
                     {% endfor %}
                   </tbody>
@@ -129,6 +131,7 @@
     <div class="col d-flex justify-content-center">
         <a class="btn btn-lg rounded-5 btn-success" style="width: 100%;" href="{% url 'booking_hotel' %}" role="button">Hotel</a>
     </div>
+    <!-- Booking Hotel Button -->
     <div class="col d-flex justify-content-center">
         <a class="btn btn-lg rounded-5 btn-warning" style="width: 100%;" href="{% url 'booking_diario' %}" role="button">Diario</a>
     </div>
