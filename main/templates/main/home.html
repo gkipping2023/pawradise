@@ -4,7 +4,7 @@
 {% load static %}
 
 <div class="container">
-    <h1 class="text text-dark">Hello {{user.nombre}}</h1>
+    <h1 class="text text-dark text-center">Hola, {{user.nombre}}!</h1>
 
 <div class="row">
     <div class="col">
@@ -12,7 +12,7 @@
       <div class="card-header p-2 ps-3">
               <div class="d-flex justify-content-between">
                 <div>
-                  <p class="text-sm mb-0 text-capitalize">Rewards:</p>
+                  <p class="text-sm mb-0 text-capitalize">Visitas:</p>
                   <h4 class="mb-0">{{user.rewards}}</h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
@@ -22,7 +22,7 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
+              <!-- <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p> -->
             </div>
           </div>
         </div>
@@ -39,7 +39,7 @@
       <div class="card-header p-2 ps-3">
               <div class="d-flex justify-content-between">
                 <div>
-                  <p class="text-sm mb-0 text-capitalize">Available Days:</p>
+                  <p class="text-sm mb-0 text-capitalize">Dias Disponibles:</p>
                   <h4 class="mb-0">{{user.available_days}}</h4>
                 </div>
                 <div class="icon icon-md icon-shape bg-gradient-dark shadow-dark shadow text-center border-radius-lg">
@@ -49,7 +49,7 @@
             </div>
             <hr class="dark horizontal my-0">
             <div class="card-footer p-2 ps-3">
-              <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p>
+              <!-- <p class="mb-0 text-sm"><span class="text-success font-weight-bolder">+55% </span>than last week</p> -->
             </div>
           </div>
         </div>
@@ -63,7 +63,7 @@
             <div class="card-header p-0 position-relative mt-n4 mx-3 z-index-2">
               <div class="bg-gradient-primary shadow-dark border-radius-lg pt-4 pb-3">
                 <h6 class="text-white text-capitalize ps-3">Tus Perros</h6>
-                <a href="{% url 'register_dog' %}" type="button" class="btn btn-light position-absolute bottom-5 end-2 rounded-pill">+ Add Dog</a>
+                <a href="{% url 'register_dog' %}" type="button" class="btn btn-light position-absolute bottom-5 end-2 rounded-pill">+ Agregar</a>
               </div>
             </div>
             <div class="card-body px-0 pb-2">
@@ -127,7 +127,7 @@
       </div>
 
 <div class="row ">
-    <h2 class="text-center">New Booking</h2>
+    <h2 class="text-center">Haz una Reserva!</h2>
     <div class="col d-flex justify-content-center">
         <a class="btn btn-lg rounded-5 btn-success" style="width: 100%;" href="{% url 'booking_hotel' %}" role="button">Hotel</a>
     </div>

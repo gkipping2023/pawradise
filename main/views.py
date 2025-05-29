@@ -85,8 +85,7 @@ def local_admin(request):
         porcentaje_total_de_conversion = round(x/y*100,2)
     except:
         porcentaje_total_de_conversion = 0
-        
-    print(expected_today,'%')
+    
 
     #available_days1 = User.objects.get(id=user.id)
 

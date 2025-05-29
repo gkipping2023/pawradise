@@ -5,37 +5,51 @@
 {% block content %}
 {% load static %}
 
-<div class="container-sm text-light form-control bg-transparent">
-    
-<h3>Hola, {{user.nombre}} {{user.apellido}} </h3>
-<h3> Tienes {{user.available_days}} dias disponibles</h3>
-
-
-
-  <!-- Form -->
-{% if user.available_days > 0 %}
-<div class="container-sm text-light form-control bg-transparent">
-<form method="POST" action="">
-    {% csrf_token %}
-    <div class="form-control">
-    {{form2.as_p}}
-{% elif user.available_days <= 0 %}
-  <form method="POST" action="">
-    {% csrf_token %}
-    <div class="form-control">
-    {{form.as_p}}
-  {% endif %}
-      <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Save"/>
-          </div>
-      </form>
-</div>
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header text-center py-4" style="background: #cc688b;">
+          <h3 class="mb-0 text-white">
+            <i class="fas fa-calendar-check me-2"></i>
+            Reserva Diario
+          </h3>
+          <p class="mb-0 text-white-50">Hola, {{user.nombre}} {{user.apellido}}</p>
+          <p class="mb-0 text-white-50">Tienes <b>{{user.available_days}}</b> días disponibles</p>
+        </div>
+        <div class="card-body bg-light rounded-bottom-4">
+          {% if user.available_days > 0 %}
+            <form method="POST" action="" class="needs-validation" novalidate>
+              {% csrf_token %}
+              <div class="mb-3">
+                {{ form2.as_p }}
+              </div>
+              <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">
+                <i class="fas fa-save me-2"></i>Guardar Reserva
+              </button>
+            </form>
+          {% elif user.available_days <= 0 %}
+            <form method="POST" action="" class="needs-validation" novalidate>
+              {% csrf_token %}
+              <div class="mb-3">
+                {{ form.as_p }}
+              </div>
+              <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">
+                <i class="fas fa-save me-2"></i>Guardar Reserva
+              </button>
+            </form>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
       document.getElementById("checkin").addEventListener("input", function() {
           let selectedDate = new Date(this.value);
           if (selectedDate.getDay() === 6) { // 0 = Sunday
-              alert("Sundays are not allowed! Please select another day.");
+              alert("Disculpa, No abrimos los Domingos. Por favor selecciona otro día.");
               this.value = ""; // Reset input field
           }
       });

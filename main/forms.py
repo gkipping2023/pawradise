@@ -40,16 +40,21 @@ class Daily_ReserveForm_Hotel_admin(ModelForm):
         model = Reserves_Hotel
         fields = '__all__'
 
-#RESERVE FORM DIARIO
+#RESERVE FORM DIARIO label='Selecciona tu Perro',
 class Daily_ReserveForm(ModelForm):
-    dog = ModelChoiceField(widget=forms.Select(attrs={'class':'form-select'}),queryset=None)
+    dog = ModelChoiceField(label='Selecciona tu Perro',widget=forms.Select(attrs={'class':'form-select'}),queryset=None)
     paquete = forms.Select(attrs={'class':'form-select','name':'paquete'})
-    fecha_in = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
+    fecha_in = forms.DateField(label='Fecha de Ingreso',widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
 
     class Meta:
         model = Reserves_Daily
         fields = '__all__'
         exclude = ['propietario','is_checked_in','check_in','check_out']
+        widgets = {
+            'dog': forms.Select(attrs={'class':'form-select'}),
+            'fecha_in': forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}),
+            'paquete': forms.Select(attrs={'class':'form-select'}),
+        }   
         
     #Para que solo salgan los perros del usuario actual
     def __init__(self, user, *args, **kwargs):
@@ -57,13 +62,17 @@ class Daily_ReserveForm(ModelForm):
         self.fields['dog'].queryset = Dogs.objects.filter(propietario=user)
 
 class Daily_ReserveForm2(ModelForm):
-    dog = ModelChoiceField(widget=forms.Select(attrs={'class':'form-select'}),queryset=None)
-    fecha_in = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
+    dog = ModelChoiceField(label='Selecciona tu Perro',widget=forms.Select(attrs={'class':'form-select'}),queryset=None)
+    fecha_in = forms.DateField(label='Fecha de Ingreso',widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
 
     class Meta:
         model = Reserves_Daily
         fields = '__all__'
         exclude = ['propietario','is_checked_in','paquete','check_in','check_out']
+        widgets = {
+            'dog': forms.Select(attrs={'class':'form-select'}),
+            'fecha_in': forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'})
+        }
         
     #Para que solo salgan los perros del usuario actual
     def __init__(self, user, *args, **kwargs):
@@ -72,15 +81,16 @@ class Daily_ReserveForm2(ModelForm):
 
 #RESERVE FORM HOTEL
 class Hotel_ReserveForm(ModelForm):
-    dog = ModelChoiceField(widget=forms.Select(attrs={'class':'form-select'}),queryset=None)
-    fecha_in = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
-    fecha_out = forms.DateField(widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkout'}))
+    dog = ModelChoiceField(label='Selecciona tu Perro',widget=forms.Select(attrs={'class':'form-select'}),queryset=None)
+    fecha_in = forms.DateField(label='Fecha de Ingreso',widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkin'}))
+    fecha_out = forms.DateField(label='Fecha de Salida',widget=forms.DateInput(attrs={'type':'date','class':'form-control','id':'checkout'}))
 
 
     class Meta:
         model = Reserves_Hotel
         fields = '__all__'
         exclude = ['propietario','is_checked_in']
+
         
     #Para que solo salgan los perros del usuario actual
     def __init__(self, user, *args, **kwargs):

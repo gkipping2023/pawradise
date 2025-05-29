@@ -2,18 +2,36 @@
 
 {% block content %}
 {% load static %}
-<div class="container">
-    
-<h3>Hola, {{user.nombre}} {{user.apellido}} </h3>
-<h3> Tienes {{user.available_days}} dias disponibles</h3>
-<form method="POST" action="">
-    {% csrf_token %}
-    <div class="form-control">
-    {{form_h.as_p}}
-    <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Save"/>
-          </div>
-      </form>
+
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header text-center py-4" style="background: #cc688b;">
+          <h3 class="mb-0 text-white">
+            <i class="fas fa-calendar-check me-2"></i>
+            Reserva para Hotel
+          </h3>
+          <p class="mb-0 text-white-50">Hola, {{user.nombre}} {{user.apellido}}</p>
+          <p class="mb-0 text-white-50">Tienes <b>{{user.available_days}}</b> días disponibles</p>
+        </div>
+        <div class="card-body bg-light rounded-bottom-4">
+            <form method="POST" action="" class="needs-validation" novalidate>
+              {% csrf_token %}
+              <div class="mb-3">
+                {{ form_h.as_p }}
+              </div>
+              <button type="submit" class="btn btn-primary w-100 rounded-pill py-2">
+                <i class="fas fa-save me-2"></i>Guardar Reserva
+              </button>
+            </form>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+
+
 
 
 <script>
@@ -26,12 +44,12 @@
         let checkout = document.getElementById("checkout").value;
 
         if (isSunday(checkin)) {
-            alert("Check-in is not allowed on Sundays.");
+            alert("Disculpa, no abrimos los Domingos.");
             document.getElementById("checkin").value = "";
         }
 
         if (isSunday(checkout)) {
-            alert("Check-out is not allowed on Sundays.");
+            alert("Disculpa, no abrimos los Domingos.");
             document.getElementById("checkout").value = "";
         }
 
@@ -41,7 +59,7 @@
 
             while (start <= end) {
                 if (isSunday(start)) {
-                    alert("Bookings cannot include Sundays.");
+                    alert("Disculpa, no abrimos los Domingos.");
                     document.getElementById("checkin").value = "";
                     document.getElementById("checkout").value = "";
                     break;
