@@ -10,19 +10,35 @@ from django.shortcuts import get_object_or_404
 from .models import User,Dogs, Reserves_Daily, Reserves_Hotel
 from .forms import NewUserForm, Daily_ReserveForm,Hotel_ReserveForm, Daily_ReserveForm2,NewDogForm,Daily_ReserveForm_admin,Daily_ReserveForm_Hotel_admin
 from .filters import Reserves_DailyFilter, DogsFilter, Reserves_HotelFilter
-# from django.db.models import Sum,Count
-# from django.core.mail import send_mail, EmailMultiAlternatives
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
-# Create your views here.
-
-@login_required(login_url='login')
+@login_required
 def update_dog_photo(request, dog_id):
     dog = get_object_or_404(Dogs, id=dog_id, propietario=request.user)
     if request.method == 'POST' and 'photo' in request.FILES:
-        dog.photo = request.FILES['photo']
-        dog.save()
-        messages.success(request, 'Foto actualizada correctamente.')
+        photo = request.FILES['photo']
+        # Open and compress the image
+        img = Image.open(photo)
+        if img.mode in ("RGBA", "P"):
+            img = img.convert("RGB")
+        output = BytesIO()
+        img.save(output, format='JPEG', quality=30, optimize=True)
+        output.seek(0)
+        compressed_photo = InMemoryUploadedFile(
+            output, 'ImageField', photo.name, 'image/jpeg',
+            output.getbuffer().nbytes, None
+        )
+        # Optional: Check size after compression
+        if compressed_photo.size > 5 * 1024 * 1024:
+            messages.error(request, "La foto no puede ser mayor a 5Mb.")
+        else:
+            dog.photo = compressed_photo
+            dog.save()
+            messages.success(request, 'Foto actualizada correctamente.')
     return redirect('home')
+
 
 def admin_new_dog(request):
     add_dog_form = Daily_ReserveForm_admin()

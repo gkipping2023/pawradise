@@ -4,8 +4,19 @@
 {% block content %}
 {% load static %}
 
-<h2>Selecciona el Perro:</h2>
-<form method="POST" action="">
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-7 col-lg-6">
+      <div class="card shadow-lg border-0 rounded-4">
+        <div class="card-header text-center py-4" style="background: #cc688b;">
+          <h3 class="mb-0 text-white">
+            <i class="fas fa-calendar-check me-2"></i>
+            Agregar Perro
+          </h3>
+          <p class="mb-0 text-white-50">Hola, {{user.nombre}}!</p>
+        </div>
+        <div class="card-body bg-light rounded-bottom-4">
+            <form method="POST" action="">
     {% csrf_token %}
     <div class="form-control">
         <label for="dog">Nombre:</label>
@@ -23,4 +34,29 @@
       <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Save"/>
           </div>
       </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% comment %} <h2>Selecciona el Perro:</h2>
+<form method="POST" action="">
+    {% csrf_token %}
+    <div class="form-control">
+        <label for="dog">Nombre:</label>
+        {{ add_dog_form.dog }}
+        <br><br>
+        <label>Propietario</label>
+        {{add_dog_form.propietario}}
+        <br><br>
+        <label for="dog">Paquete:</label>
+        {{ add_dog_form.paquete }}
+        <br><br>
+        <label for="dog">Fecha de Ingreso:</label>
+        {{ add_dog_form.fecha_in }}
+        <br><br>
+      <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Save"/>
+          </div>
+      </form> {% endcomment %}
 {% endblock %}

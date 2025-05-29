@@ -108,6 +108,7 @@
                         {% endif %}
                       </td>
                       <div class="mb-3">
+                        <!-- Update photo -->
                         <td class="align-middle form-control text-center mb-3">
                         <form action="{% url 'update_dog_photo' dog.id %}" method="POST" enctype="multipart/form-data" style="margin-top:5px;">
                         {% csrf_token %}
