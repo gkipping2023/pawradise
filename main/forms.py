@@ -4,6 +4,10 @@ from django.contrib.auth.forms import UserCreationForm
 from django import forms
 from crispy_forms.helper import FormHelper
 from datetime import date
+from PIL import Image
+from io import BytesIO
+from django.core.files.uploadedfile import InMemoryUploadedFile
+
 
 class NewUserForm(UserCreationForm):
     nombre = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control text-primary border-primary'}))
@@ -20,6 +24,28 @@ class NewDogForm(ModelForm):
         model = Dogs
         fields = '__all__'
         exclude = ['is_special','propietario']
+    
+    def clean_photo(self):
+        photo = self.cleaned_data.get('photo')
+        if photo:
+            # Open the uploaded image
+            img = Image.open(photo)
+            # Convert to RGB if necessary
+            if img.mode in ("RGBA", "P"):
+                img = img.convert("RGB")
+            # Save to BytesIO with reduced quality
+            output = BytesIO()
+            img.save(output, format='JPEG', quality=70, optimize=True)
+            output.seek(0)
+            # Replace the uploaded file with the compressed one
+            photo = InMemoryUploadedFile(
+                output, 'ImageField', photo.name, 'image/jpeg',
+                output.getbuffer().nbytes, None
+            )
+            # Check size after compression
+            if photo.size > 5 * 1024 * 1024:
+                raise forms.ValidationError("La foto no puede ser mayor a 5Mb.")
+        return photo
 
 class Daily_ReserveForm_admin(ModelForm):
     dog = ModelChoiceField(widget=forms.Select(attrs={'class':'form-select'}),queryset=Dogs.objects.all())
