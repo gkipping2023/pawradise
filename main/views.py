@@ -13,6 +13,8 @@ from .filters import Reserves_DailyFilter, DogsFilter, Reserves_HotelFilter
 from PIL import Image
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.serializers.json import DjangoJSONEncoder
+import json
 
 @login_required
 def update_dog_photo(request, dog_id):
@@ -42,17 +44,31 @@ def update_dog_photo(request, dog_id):
 
 def admin_new_dog(request):
     add_dog_form = Daily_ReserveForm_admin()
+    paquete_input = request.POST.get('paquete')
     if request.method == 'POST':
         add_dog_form = Daily_ReserveForm_admin(request.POST)
         if add_dog_form.is_valid():
+            propietario = add_dog_form.cleaned_data.get('propietario')
             add_dog_form.save(commit=False)
-            add_dog_form.propietario = 'Entrada Manual'
+            if propietario and propietario.available_days <= 0:
+                propietario.available_days = int(paquete_input)
+                propietario.save()
             add_dog_form.save()
             return redirect('local_admin')
         else:
             messages.error(request, add_dog_form.errors)
+    # Build mapping: dog_id -> {propietario_id, last_paquete}
+    dog_map = {}
+    for dog in Dogs.objects.all():
+        # Get the latest Reserves_Daily for this dog
+        last_reserve = Reserves_Daily.objects.filter(dog=dog).order_by('-fecha_in').first()
+        dog_map[dog.id] = {
+            'propietario': dog.propietario.id,
+            'paquete': last_reserve.paquete if last_reserve else ''
+        }
     context ={
-        'add_dog_form':add_dog_form,
+        'add_dog_form': add_dog_form,
+        'dog_map_json': json.dumps(dog_map, cls=DjangoJSONEncoder),
     }
     return render(request,'main/adddog_form.html',context)
 
@@ -164,7 +180,7 @@ def check_in_out_daily(request,dog_id):
             dog.check_in = now()
             dueno.save()
             messages.success(request, str(dog.dog) + " Checked In!")
-        else:
+        elif dog.is_checked_in is True:
             dog.check_out = now()
             messages.error(request, str(dog.dog) + " Checked Out!")
         dog.is_checked_in = not dog.is_checked_in

@@ -33,6 +33,20 @@
         <br><br>
       <input type="submit" class="btn btn-primary bg-gradient container text-center my-3" name="Submit" value="Save"/>
           </div>
+<script>
+  const dogMap = {{ dog_map_json|safe }};
+  const dogSelect = document.getElementById("id_dog");
+  const propietarioSelect = document.getElementById("id_propietario");
+  const paqueteSelect = document.getElementById("id_paquete");
+
+  dogSelect.addEventListener("change", function() {
+    const selectedDogId = this.value;
+    if (dogMap[selectedDogId]) {
+      if (propietarioSelect) propietarioSelect.value = dogMap[selectedDogId].propietario;
+      if (paqueteSelect && dogMap[selectedDogId].paquete) paqueteSelect.value = dogMap[selectedDogId].paquete;
+    }
+  });
+</script>
       </form>
         </div>
       </div>
