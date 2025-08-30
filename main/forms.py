@@ -14,7 +14,9 @@ class NewUserForm(UserCreationForm):
     apellido = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control text-primary border-primary'}))
     telefono = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control text-primary border-primary','type':'tel', 'pattern':'[0-9]{4}-[0-9]{4}','placeholder':'Ej: 1234-5678'}))
     email = forms.EmailField(widget=forms.EmailInput(attrs={'class': 'form-control text-primary border-primary','type':'email'}))
-
+    password1 = forms.CharField(label='Contraseña',widget=forms.PasswordInput(attrs={'class': 'form-control text-primary border-primary'}))
+    password2 = forms.CharField(label='Confirmar Contraseña',widget=forms.PasswordInput(attrs={'class': 'form-control text-primary border-primary'}))
+    
     class Meta:
         model = User
         fields = ['email','nombre','apellido','telefono']
